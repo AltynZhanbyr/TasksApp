@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.fragment.AddTaskFragment">
+    <data>
+        <variable
+            name="tasksViewModel"
+            type="com.example.tasksapp.viewmodel.TasksViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/task_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:textSize="1sp"
+                    android:text="@={tasksViewModel.taskID}"
+                    />
+                <EditText
+                    android:id="@+id/task_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:hint="@string/task_title"
+                    android:text="@={tasksViewModel.taskName}"
+                    android:textSize="25sp"/>
+                <CheckBox
+                    android:id="@+id/task_is_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:checked="@={tasksViewModel.taskIsDone}"
+                    android:text="@string/done"/>
+
+                <EditText
+                    android:id="@+id/task_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="@={tasksViewModel.taskDescription}"
+                    android:hint="@string/set_description"
+                    android:layout_marginTop="15dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/save_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:enabled="true"
+            android:layout_margin="30sp"
+            android:onClick="@{()->tasksViewModel.addTask()}"
+            android:src="@drawable/ic_baseline_task_add_24"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/update_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:enabled="false"
+            android:layout_margin="30sp"
+            android:onClick="@{()->tasksViewModel.updateData()}"
+            android:src="@drawable/ic_baseline_update_24"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="30sp"
+            android:onClick="@{()->tasksViewModel.goBack()}"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
