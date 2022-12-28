@@ -6,8 +6,8 @@
     tools:context=".view.fragment.AddTaskFragment">
     <data>
         <variable
-            name="tasksViewModel"
-            type="com.example.tasksapp.viewmodel.TasksViewModel" />
+            name="editTaskViewModel"
+            type="com.example.tasksapp.viewmodel.EditTaskViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,28 +20,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/task_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:textSize="1sp"
-                    android:text="@={tasksViewModel.taskID}"
-                    />
                 <EditText
                     android:id="@+id/task_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:hint="@string/task_title"
-                    android:text="@={tasksViewModel.taskName}"
+                    android:text="@={editTaskViewModel.task.title}"
                     android:textSize="25sp"/>
                 <CheckBox
                     android:id="@+id/task_is_done"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25dp"
-                    android:checked="@={tasksViewModel.taskIsDone}"
+                    android:checked="@={editTaskViewModel.task.done}"
                     android:text="@string/done"/>
 
                 <EditText
@@ -49,21 +41,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="@={tasksViewModel.taskDescription}"
+                    android:text="@={editTaskViewModel.task.description}"
                     android:hint="@string/set_description"
                     android:layout_marginTop="15dp" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/save_task"
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:enabled="true"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="30sp"
-            android:onClick="@{()->tasksViewModel.addTask()}"
-            android:src="@drawable/ic_baseline_task_add_24"/>
+            android:onClick="@{()->editTaskViewModel.goBack()}"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintEnd_toStartOf="@id/update_task"
+            android:layout_margin="30sp"
+            android:onClick="@{()->editTaskViewModel.deleteTask()}"
+            android:src="@drawable/ic_baseline_delete_24"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/update_task"
@@ -73,18 +78,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:enabled="false"
             android:layout_margin="30sp"
-            android:onClick="@{()->tasksViewModel.updateData()}"
+            android:onClick="@{()->editTaskViewModel.updateTask()}"
             android:src="@drawable/ic_baseline_update_24"/>
 
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/back"
+            android:id="@+id/save_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:enabled="true"
             android:layout_margin="30sp"
-            android:onClick="@{()->tasksViewModel.goBack()}"
-            android:src="@drawable/ic_baseline_arrow_back_24"/>
+            android:onClick="@{()->editTaskViewModel.addTask()}"
+            android:src="@drawable/ic_baseline_task_add_24"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

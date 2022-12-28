@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import com.example.tasksapp.model.dao.TaskDao
 import com.example.tasksapp.model.entity.Task
 
-@Database(entities = [Task::class], version = 2, exportSchema = true, autoMigrations = [AutoMigration(from = 1, to = 2)])
+@Database(entities = [Task::class], version = 4, exportSchema = true, autoMigrations = [AutoMigration(from = 3, to = 4)])
 abstract class TaskDatabase: RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
 

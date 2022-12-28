@@ -2,6 +2,7 @@ package com.example.tasksapp.model.entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,7 +14,8 @@ data class Task(
     var Id:Long?,
 
     @ColumnInfo(name="task_title")
-    var title:String,
+    @Nullable
+    var title:String?,
 
     @ColumnInfo(name="task_description")
     var description:String?,

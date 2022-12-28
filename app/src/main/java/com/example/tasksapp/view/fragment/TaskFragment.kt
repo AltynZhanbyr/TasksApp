@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.example.tasksapp.model.entity.Task
 import com.example.tasksapp.viewmodel.TasksViewModel
 import com.example.tasksapp.viewmodel.TasksViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 
 class TaskFragment : Fragment() {
@@ -39,7 +41,7 @@ class TaskFragment : Fragment() {
         val db = TaskDatabase.getDB(application);
         val dao = db.getTaskDao()
 
-        val factory = TasksViewModelFactory(dao)
+        val factory = TasksViewModelFactory(-1,dao)
         val viewModel = ViewModelProvider(this,factory)[TasksViewModel::class.java]
 
         binding.tasksViewModel = viewModel
@@ -54,9 +56,12 @@ class TaskFragment : Fragment() {
 
         adapter = TaskAdapter(onTaskClickListener)
 
-        viewModel.allTasks?.observe(viewLifecycleOwner){list->
-            list?.let {
-                adapter.submitList(list)
+        lifecycleScope.launch{
+            viewModel.allTasks?.observe(viewLifecycleOwner){list->
+                list?.let {
+                    adapter.submitList(list)
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
         viewModel.toAddTask.observe(viewLifecycleOwner){
@@ -65,6 +70,7 @@ class TaskFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
+
         binding.taskList.adapter=adapter
         adapter.notifyDataSetChanged()
 
