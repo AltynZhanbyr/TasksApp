@@ -6,7 +6,9 @@ import android.view.View
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.replace
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,7 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.tasksapp.R
 import com.example.tasksapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var navController:NavController
@@ -27,19 +29,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
+        setSupportActionBar(binding.toolbar)
+
         navController = findNavController(R.id.nav_host_fragment_main)
 
-        setupWithNavController(binding.bottomNav,navController)
+        navController.addOnDestinationChangedListener(this)
+    }
 
-        navController.addOnDestinationChangedListener{controller,destination,_->
-            when(destination.id){
-                R.id.addTaskFragment->
-                    binding.bottomNav.visibility=View.INVISIBLE
-                else-> {
-                    binding.bottomNav.visibility = View.VISIBLE
-                }
-            }
-        }
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        if(destination.id == R.id.addTaskFragment)
+            title = "Editor"
+        if(destination.id == R.id.taskFragment)
+            title = "Tasks"
     }
 }

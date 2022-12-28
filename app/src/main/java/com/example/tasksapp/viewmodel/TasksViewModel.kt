@@ -9,13 +9,10 @@ import kotlinx.coroutines.launch
 class TasksViewModel (private val dao:TaskDao): ViewModel(){
 
     val allTasks = dao.getAllTasks()
-
     val allDoneTasks  = dao.getAllTasks(true)
     val allUndoneTasks  = dao.getAllTasks(false)
 
     var task:LiveData<Task>?=null
-
-    var toAddTask = MutableLiveData<Boolean>(false)
 
     var taskDescription=""
     var taskName=""
@@ -25,6 +22,8 @@ class TasksViewModel (private val dao:TaskDao): ViewModel(){
     var isTaskAdded = MutableLiveData(false)
     var isGoBack = MutableLiveData(false)
     var isTaskUpdated = MutableLiveData(false)
+    var isTaskDeleted = MutableLiveData(false)
+    var toAddTask = MutableLiveData(false)
 
     fun addTask(){
         val task = Task(null,taskName,taskDescription,taskIsDone)
@@ -43,6 +42,14 @@ class TasksViewModel (private val dao:TaskDao): ViewModel(){
         viewModelScope.launch {
             dao.updateTask(task)
             isTaskUpdated.value = true
+        }
+    }
+
+    fun deleteTask(){
+        val task = Task(taskID.toLong(),taskName,taskDescription,taskIsDone)
+        viewModelScope.launch {
+            dao.deleteTask(task)
+            isTaskDeleted.value = true
         }
     }
 

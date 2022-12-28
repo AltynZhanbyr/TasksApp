@@ -50,7 +50,6 @@ class TaskFragment : Fragment() {
                 val action = TaskFragmentDirections.actionTaskFragmentToAddTaskFragment(task.Id!!)
                 findNavController().navigate(action)
             }
-
         }
 
         adapter = TaskAdapter(onTaskClickListener)

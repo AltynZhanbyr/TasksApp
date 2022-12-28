@@ -4,19 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/taskFragment">
-
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.example.tasksapp.view.fragment.TaskFragment"
         android:label="fragment_task"
-        tools:layout="@layout/fragment_task">
-
+        tools:layout="@layout/fragment_task" >
         <action
             android:id="@+id/action_taskFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
-        <action
-            android:id="@+id/action_taskFragment_to_doneTasksFragment"
-            app:destination="@id/doneTasksFragment" />
+            app:destination="@id/addTaskFragment"
+            app:popUpTo="@id/taskFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -25,25 +21,9 @@
         tools:layout="@layout/fragment_add_task" >
         <action
             android:id="@+id/action_addTaskFragment_to_taskFragment"
-            app:destination="@id/taskFragment"
-            app:popUpTo="@id/taskFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/taskFragment" />
         <argument
             android:name="taskID"
             app:argType="long" />
-    </fragment>
-    <fragment
-        android:id="@+id/doneTasksFragment"
-        android:name="com.example.tasksapp.view.fragment.DoneTasksFragment"
-        android:label="fragment_done_tasks"
-        tools:layout="@layout/fragment_done_tasks" >
-        <action
-            android:id="@+id/action_doneTasksFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
-        <action
-            android:id="@+id/action_doneTasksFragment_to_taskFragment"
-            app:destination="@id/taskFragment"
-            app:popUpTo="@id/taskFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

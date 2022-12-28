@@ -41,15 +41,17 @@ class AddTaskFragment : Fragment() {
 
         binding.tasksViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.isTaskAdded.observe(viewLifecycleOwner){
-            if(it){
-                findNavController().navigate(R.id.action_addTaskFragment_to_taskFragment)
-            }
+
+        viewModel.isTaskAdded.observe(viewLifecycleOwner){isDone->
+            goBack(isDone)
         }
-        viewModel.isGoBack.observe(viewLifecycleOwner){
-            if(it){
-                findNavController().navigate(R.id.action_addTaskFragment_to_taskFragment)
-            }
+
+        viewModel.isGoBack.observe(viewLifecycleOwner){isDone->
+            goBack(isDone)
+        }
+
+        viewModel.isTaskUpdated.observe(viewLifecycleOwner){isDone->
+            goBack(isDone)
         }
 
         val id = AddTaskFragmentArgs.fromBundle(requireArguments()).taskID
@@ -68,5 +70,10 @@ class AddTaskFragment : Fragment() {
             }
         }
 
+    }
+    private fun goBack(bool:Boolean){
+        if(bool){
+            findNavController().navigate(R.id.action_addTaskFragment_to_taskFragment)
+        }
     }
 }
